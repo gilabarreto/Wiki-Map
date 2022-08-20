@@ -20,7 +20,7 @@ Both authenticated and non-authenticated users can see a list of the available m
 
 ## Nouns
 
-Users, Maps, Points, Favourites, Categories...
+Users, Maps, Points, Favourites, (Bonus: Categories)
 
 ## Routes
 
@@ -29,5 +29,9 @@ R -
 E - 
 A - 
 D - 
+
+## Ideas
+
+- Login/register page has transparent map background
 
 
