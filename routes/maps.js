@@ -24,7 +24,7 @@ module.exports = (db) => {
           .send("Error: err.message");
       });
   });
-  router.get("/create", (req, res) => {
+  router.post("/create", (req, res) => {
     db.query(`SELECT * FROM users;`)
       .then(data => {
         res.render('create-maps');
@@ -46,7 +46,7 @@ module.exports = (db) => {
           .send("Error: err.message");
       });
   });
-  router.get("/edit", (req, res) => {
+  router.post("/edit", (req, res) => {
     db.query(`SELECT * FROM users;`)
       .then(data => {
         res.render('edit');
