@@ -8,7 +8,18 @@
 const express = require('express');
 const router  = express.Router();
 
-module.exports = (db) => {
+
+///////////////////
+// GET Requests //
+/////////////////
+
+router.get("/", (req, res) => {
+  res.render('index')
+})
+
+module.exports = router;
+
+/* module.exports = (db) => {
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM users;`)
       .then(data => {
@@ -22,4 +33,4 @@ module.exports = (db) => {
       });
   });
   return router;
-};
+}; */

@@ -6,20 +6,30 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
-module.exports = (db) => {
-  router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        const users = data.rows;
-        res.json({ users });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-  return router;
-};
+///////////////////
+// GET Requests //
+/////////////////
+
+router.get("/", (req, res) => {
+  res.render('maps')
+})
+
+router.get("/create", (req, res) => {
+  res.render('create-maps');
+})
+
+router.get("/favourites", (req, res) => {
+  res.render('favourites')
+})
+
+/////////////////////
+// POST Requests //
+///////////////////
+
+router.post("/edit", (req, res) => {
+  res.render('edit');
+})
+
+module.exports = router;
