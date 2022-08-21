@@ -13,24 +13,17 @@ const router  = express.Router();
 // GET Requests //
 /////////////////
 
-router.get("/", (req, res) => {
-  res.render('index')
-})
-
-module.exports = router;
-
-/* module.exports = (db) => {
+module.exports = (db) => {
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM users;`)
       .then(data => {
-        const users = data.rows;
-        res.json({ users });
+        res.render('index');
       })
       .catch(err => {
         res
           .status(500)
-          .json({ error: err.message });
+          .send("Error: err.message");
       });
   });
   return router;
-}; */
+};

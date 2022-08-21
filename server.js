@@ -43,10 +43,10 @@ const mapsRoutes = require("./routes/maps");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/", indexRoute);
+app.use("/", indexRoute(db));
 app.use("/register", registerRoutes(db));
 app.use("/login", loginRoutes(db));
-app.use("/maps", mapsRoutes);
+app.use("/maps", mapsRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
 

@@ -21,5 +21,14 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  router.post("/", (req, res) => {
+    const { email, password } = req.body;
+    const foundUser = getUserByEmail(email, users)
+
+    if (!foundUser) {
+      return res.status(403).send("No user with that email found!")
+    }
+    res.redirect("/")
+  })
   return router;
 };

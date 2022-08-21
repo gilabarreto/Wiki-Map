@@ -12,24 +12,54 @@ const router = express.Router();
 // GET Requests //
 /////////////////
 
-router.get("/", (req, res) => {
-  res.render('maps')
-})
-
-router.get("/create", (req, res) => {
-  res.render('create-maps');
-})
-
-router.get("/favourites", (req, res) => {
-  res.render('favourites')
-})
+module.exports = (db) => {
+  router.get("/", (req, res) => {
+    db.query(`SELECT * FROM users;`)
+      .then(data => {
+        res.render('maps');
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send("Error: err.message");
+      });
+  });
+  router.get("/create", (req, res) => {
+    db.query(`SELECT * FROM users;`)
+      .then(data => {
+        res.render('create-maps');
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send("Error: err.message");
+      });
+  });
+  router.get("/favourites", (req, res) => {
+    db.query(`SELECT * FROM users;`)
+      .then(data => {
+        res.render('favourites');
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send("Error: err.message");
+      });
+  });
+  router.get("/edit", (req, res) => {
+    db.query(`SELECT * FROM users;`)
+      .then(data => {
+        res.render('edit');
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send("Error: err.message");
+      });
+  });
+  return router;
+};
 
 /////////////////////
 // POST Requests //
 ///////////////////
-
-router.post("/edit", (req, res) => {
-  res.render('edit');
-})
-
-module.exports = router;
