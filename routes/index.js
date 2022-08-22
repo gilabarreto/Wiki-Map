@@ -6,18 +6,26 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
+const { getUserById } = require('../helpers');
 
-
-///////////////////
-// GET Requests //
-/////////////////
 
 module.exports = (db) => {
+
+  ///////////////////
+  // GET Requests //
+  /////////////////
+
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
+
+    const userId = req.session.user_id;
+    const name = req.session.name;
+
+    getUserById(db, userId)
+
       .then(data => {
-        res.render('index');
+        console.log(data)
+        res.render('index', { userId, name });
       })
       .catch(err => {
         res

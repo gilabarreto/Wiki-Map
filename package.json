@@ -8,12 +8,13 @@
     "start": "node server.js",
     "local": "./node_modules/.bin/nodemon -L --ignore public/",
     "db:reset": "node bin/resetdb.js",
-    "sass-watch": "sass sass:public/styles --watch --poll --no-source-map"
+    "sass-watch": "sass styles:public/styles --watch --poll --no-source-map"
   },
   "author": "Lighthouse Labs",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.2",
+    "cookie-session": "^2.0.0",
     "dotenv": "^2.0.0",
     "ejs": "^3.1.8",
     "express": "^4.17.1",

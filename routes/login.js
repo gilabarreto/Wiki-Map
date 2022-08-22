@@ -6,29 +6,39 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
+const { getUserByEmail } = require('../helpers');
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        const users = data.rows;
-        res.render('login');
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-  router.post("/", (req, res) => {
-    const { email, password } = req.body;
-    const foundUser = getUserByEmail(email, users)
 
-    if (!foundUser) {
-      return res.status(403).send("No user with that email found!")
-    }
-    res.redirect("/")
-  })
+  router.get("/", (req, res) => {
+    const templateVars = { userId: null };
+    res.render("login", templateVars);
+  });
+
+  router.post('/', (req, res) => {
+    const { email, password } = req.body
+    getUserByEmail(db, email)
+      .then(user => {
+        if (!user) {
+          return res.status(404).send("User not found.")
+        }
+        if (user.password !== password) {
+          return res.status(404).send("Invalid password.")
+        }
+
+        req.session.user_id = user.id;
+        req.session.name = user.name;
+
+        res.redirect('/');
+      })
+  });
+
+/*   router.get('/:id', (req, res) => {
+    req.session.user_id = req.params.id;
+    res.redirect('/');
+  }); */
+
   return router;
+
 };

@@ -3,15 +3,22 @@
   <nav class="navbar-top">
     <a href="/">Wiki-Map</a>
 
-    <% if(!1===1){ %>
-      <a href="/maps">My Maps</a>
-      <a href="/maps/favourites">Favourites</a>
-      <a href="/maps/create">Create Maps</a>
+    <% if(!userId){ %>
+
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+
 
       <% } else{ %>
 
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="/maps">My Maps</a>
+        <a href="/maps/favourites">Favourites</a>
+        <a href="/maps/create">Create Maps</a>
+
+        <form action="/logout" method="POST">
+          <label for="logout">Logged In As: <%= name %> </label>
+          <button type="submit">LogOut</button>
+        </form>
 
         <% } %>
   </nav>
