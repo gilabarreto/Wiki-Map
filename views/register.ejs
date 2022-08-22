@@ -17,7 +17,10 @@
 <body>
   <%- include('partials/_header') %>
   <h3>Register</h3>
+  <p>
   <form action="/register" method="POST">
+    <label for="name">Name</label>
+    <input type="name" name="name" placeholder="Enter your name">
     <label for="email">Email address</label>
     <input type="email" name="email" placeholder="Enter email">
     <label for="password">Password</label>

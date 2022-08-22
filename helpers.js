@@ -28,5 +28,5 @@ function getUserByEmail(db, email) {
 
 module.exports = {
   getUserById,
-  getUserByEmail
+  getUserByEmail,
 };

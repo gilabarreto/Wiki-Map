@@ -11,19 +11,31 @@ const { getUserByEmail } = require('../helpers');
 
 module.exports = (db) => {
 
+  ///////////////////
+  // GET Requests //
+  /////////////////
+
   router.get("/", (req, res) => {
     const templateVars = { userId: null };
     res.render("login", templateVars);
   });
 
+  /////////////////////
+  // POST Requests //
+  ///////////////////
+
   router.post('/', (req, res) => {
-    const { email, password } = req.body
-    getUserByEmail(db, email)
+
+    const userEmail = req.body.email;
+    const userPassword = req.body.password;
+
+    getUserByEmail(db, userEmail)
+
       .then(user => {
         if (!user) {
           return res.status(404).send("User not found.")
         }
-        if (user.password !== password) {
+        if (user.password !== userPassword) {
           return res.status(404).send("Invalid password.")
         }
 
@@ -34,10 +46,10 @@ module.exports = (db) => {
       })
   });
 
-/*   router.get('/:id', (req, res) => {
-    req.session.user_id = req.params.id;
-    res.redirect('/');
-  }); */
+  /*   router.get('/:id', (req, res) => {
+      req.session.user_id = req.params.id;
+      res.redirect('/');
+    }); */
 
   return router;
 

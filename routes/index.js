@@ -19,13 +19,13 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
 
     const userId = req.session.user_id;
-    const name = req.session.name;
+    const userName = req.session.name;
 
     getUserById(db, userId)
 
       .then(data => {
         console.log(data)
-        res.render('index', { userId, name });
+        res.render('index', { userId, userName });
       })
       .catch(err => {
         res

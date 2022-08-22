@@ -15,34 +15,51 @@ module.exports = (db) => {
   // GET Requests //
   /////////////////
 
-  router.get("/", (req, res) => {
-
-    const userId = req.session.user_id;
-    const name = req.session.name;
+  function hasUser(userId, cb) {
 
     getUserById(db, userId)
 
-      .then(data => {
-        console.log(data)
-        res.render('index', { userId, name });
-      })
+      .then(cb)
       .catch(err => {
         res
           .status(500)
           .send("Error: err.message");
       });
+  }
+
+  router.get("/", (req, res) => {
+
+    const userId = req.session.user_id;
+    const userName = req.session.name;
+
+    /* getUserById(db, userId)
+
+      .then(data => {
+        console.log(data)
+        res.render('index', { userId, userName });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send("Error: err.message");
+      }); */
+
+    hasUser(userId, () => {
+        res.render('index', { userId, userName });
+      })
   });
 
   router.get("/favourites", (req, res) => {
 
     const userId = req.session.user_id;
-    const name = req.session.name;
+    const userName = req.session.name;
 
     getUserById(db, userId)
 
       .then(data => {
         console.log(data)
-        res.render('favourites', { userId, name });
+        console.log("favorites", userName)
+        res.render('favourites', { userId, userName });
       })
       .catch(err => {
         res
@@ -54,13 +71,13 @@ module.exports = (db) => {
   router.get("/create", (req, res) => {
 
     const userId = req.session.user_id;
-    const name = req.session.name;
+    const userName = req.session.name;
 
     getUserById(db, userId)
 
       .then(data => {
         console.log(data)
-        res.render('create-maps', { userId, name });
+        res.render('create-maps', { userId, userName });
       })
       .catch(err => {
         res
@@ -96,5 +113,7 @@ module.exports = (db) => {
           .send("Error: err.message");
       });
   });
+
   return router;
+
 };
