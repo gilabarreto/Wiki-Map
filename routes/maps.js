@@ -15,7 +15,7 @@ module.exports = (db) => {
   // GET Requests //
   /////////////////
 
-  function hasUser(userId, cb) {
+  function hasUser(userId, cb, res) {
 
     getUserById(db, userId)
 
@@ -46,8 +46,9 @@ module.exports = (db) => {
 
     hasUser(userId, () => {
         res.render('index', { userId, userName });
-      })
+      }, res)
   });
+
 
   router.get("/favourites", (req, res) => {
 
