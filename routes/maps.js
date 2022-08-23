@@ -91,16 +91,31 @@ module.exports = (db) => {
   // POST Requests //
   ///////////////////
 
+
   router.post("/create", (req, res) => {
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        res.render('create-maps');
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .send("Error: err.message");
-      });
+
+    const title = req.body.title
+    const description = req.body.description;
+
+    getUserById(db, user.id)
+
+/*       .then(user => {
+        if (user) {
+          return res.status(400).send("E-mail already on our database.");
+        }
+        if (userName === "" | userEmail === "" || userPassword === "") {
+          return res.status(400).send("Name, E-mail and Password can not be blank. Please try again.");
+        } */
+
+        db.query(`INSERT INTO points (
+          description, title)
+          VALUES ($1, $2)
+          RETURNING *`, [title, description]).then(user => {
+            req.session.user_id = user.id;
+            req.session.name = user.name;
+
+            res.redirect('/');
+          })
   });
 
   router.post("/edit", (req, res) => {
