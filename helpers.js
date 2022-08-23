@@ -12,6 +12,20 @@ function getUserById(db, id) {
 
 }
 
+function getMapPoints(db, id) {
+  return db.query('SELECT * FROM points WHERE map_id = $1', [id])
+    .then(data => {
+      const points = data.rows;
+      return points
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+
+}
+
 function getUserByEmail(db, email) {
   return db.query('SELECT * FROM users WHERE email = $1', [email])
     .then(data => {
@@ -28,4 +42,5 @@ function getUserByEmail(db, email) {
 module.exports = {
   getUserById,
   getUserByEmail,
+  getMapPoints
 };

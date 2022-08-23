@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getUserById } = require('../helpers');
+const { getUserById, getMapPoints } = require('../helpers');
 
 module.exports = (db) => {
 
@@ -77,8 +77,30 @@ module.exports = (db) => {
     getUserById(db, userId)
 
       .then(data => {
-        console.log(data)
         res.render('create-maps', { userId, userName });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send("Error: err.message");
+      });
+  });
+
+  router.get("/:id/points", (req, res) => {
+    getMapPoints(db, req.params.id).then(points =>{
+      res.json(points)
+    })
+  })
+
+  router.get("/:id", (req, res) => {
+
+    const userId = req.session.user_id;
+    const userName = req.session.name;
+
+    getUserById(db, userId)
+
+      .then(data => {
+        res.render('edit-maps', { userId, userName, id: req.params.id });
       })
       .catch(err => {
         res

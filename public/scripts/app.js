@@ -6,6 +6,17 @@ function initMap() {
     zoom: 8,
   };
 
+  const loadPoints = function () {
+    const id = $("#map-id").val();
+    $.get(`/maps/${id}/points`).then((res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        console.log(res.data[i]);
+        addMarker(res.data[i]);
+      }
+    });
+  };
+  loadPoints();
+
   //New map
   map = new google.maps.Map(document.getElementById("map"), options);
 
@@ -16,25 +27,25 @@ function initMap() {
   });
 
   //Marker Array
-  let MarkerArray = [
-    {
-      location: { lat: 43.7315, lng: -79.7624 },
-      content: `<h2>Brampton<h2>`,
-    },
-    {
-      location: { lat: 43.2557, lng: -79.8711 },
-      content: `<h2>Hamilton<h2>`,
-    },
-    {
-      location: { lat: 44.6082, lng: -79.4187 },
-      content: `<h2>Orillia<h2>`,
-    },
-  ];
+  // let MarkerArray = [
+  //   {
+  //     location: { lat: 43.7315, lng: -79.7624 },
+  //     content: `<h2>Brampton<h2>`,
+  //   },
+  //   {
+  //     location: { lat: 43.2557, lng: -79.8711 },
+  //     content: `<h2>Hamilton<h2>`,
+  //   },
+  //   {
+  //     location: { lat: 44.6082, lng: -79.4187 },
+  //     content: `<h2>Orillia<h2>`,
+  //   },
+  // ];
 
-  //Loop through marker
-  for (let i = 0; i < MarkerArray.length; i++) {
-    addMarker(MarkerArray[i]);
-  }
+  // //Loop through marker
+  // for (let i = 0; i < MarkerArray.length; i++) {
+  //   addMarker(MarkerArray[i]);
+  // }
 
   //Add Marker
   function addMarker(property) {

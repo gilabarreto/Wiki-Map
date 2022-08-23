@@ -24,7 +24,6 @@ module.exports = (db) => {
     getUserById(db, userId)
 
       .then(data => {
-        console.log(data)
         res.render('index', { userId, userName });
       })
       .catch(err => {
