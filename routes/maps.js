@@ -81,13 +81,13 @@ module.exports = (db) => {
     });
   });
 
-  router.get("/:id/edit", (req, res) => {
+  router.get("/:mapId/edit", (req, res) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
 
     getUserById(db, userId)
       .then((data) => {
-        res.render("edit-maps", { userId, userName, id: req.params.id });
+        res.render("edit-maps", { userId, userName, id: req.params.mapId });
       })
       .catch((err) => {
         res.status(500).send("Error: err.message");
@@ -130,10 +130,11 @@ module.exports = (db) => {
       `INSERT INTO maps (
           user_id, title, description)
           VALUES ($1, $2, $3)
-          RETURNING *`,
+          RETURNING id`,
       [user_id, title, description]
-    ).then(() => {
-      res.redirect(`/${user_id}/edit`);
+    ).then((result) => {
+      console.log(result.rows[0].id)
+      res.redirect(`/maps/${result.rows[0].id}/edit`);
     });
   });
 

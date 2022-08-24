@@ -8,11 +8,14 @@ function initMap() {
 
   const loadPoints = function () {
     const id = $("#map-id").val();
+    // console.log({id})
     $.get(`/maps/${id}/points`).then((res) => {
-      for (let i = 0; i < res.data.length; i++) {
-        console.log(res.data[i]);
-        addMarker(res.data[i]);
+      console.log("resdata",res);
+      for (let i = 0; i < res.length; i++) {
+        addMarker({location: {lat: parseFloat(res[i].latitude), lng: parseFloat(res[i].longitude)}, content: `<h2>${res[i].title}</h2>`});
       }
+    }).catch((err) => {
+      console.error(err)
     });
   };
   loadPoints();
@@ -26,7 +29,7 @@ function initMap() {
     addMarker({ location: event.latLng });
   });
 
-  //Marker Array
+  //Marker array
   // let MarkerArray = [
   //   {
   //     location: { lat: 43.7315, lng: -79.7624 },
