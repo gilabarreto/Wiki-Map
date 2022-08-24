@@ -138,6 +138,28 @@ module.exports = (db) => {
     });
   });
 
+  router.post("/:mapId/points", (req, res) => {
+
+    const map_id = req.params.mapId;
+    const description = req.body.description;
+    const title = req.body.title;
+    const latitude = req.body.latitude;
+    const longitude = req.body.longitude;
+    console.log("Map id",map_id)
+    db.query(`INSERT INTO points (
+      map_id, description, title, latitude, longitude)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;`,
+      [map_id, description, title, latitude, longitude])
+      .then((data) => {
+        res.status(200).send();
+      })
+      .catch((err) => {
+        res.status(500).send("Error: err.message");
+        console.log(err)
+      });
+  });
+
   router.post("/:id/edit", (req, res) => {
     db.query(`SELECT * FROM users;`)
       .then((data) => {
