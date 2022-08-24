@@ -1,4 +1,5 @@
 // Client facing scripts here
+let detailWindow
 function initMap() {
   //Map option
   let options = {
@@ -56,7 +57,6 @@ function initMap() {
       e.preventDefault();
       // const formValue = $(event.target).serialize();
       // console.log("form:", formValue)
-      alert("Handler for .submit() called.");
 
       $.post(`/maps/${id}/points`, {
         latitude: event.latLng.lat(),
@@ -64,12 +64,12 @@ function initMap() {
         title: $(e.target).find("input[name='title']").val(),
         description: $(e.target).find("input[name='description']").val(),
       });
-
+      detailWindow.close()
       loadPoints();
     });
 
     $("html").on("click", "#add-point .cancel-btn", function (event) {
-      console.log("cancel btn clicked");
+      detailWindow.close()
     });
 
     // if (form complete) {
@@ -86,7 +86,7 @@ function initMap() {
       map: map,
     });
     if (property.content) {
-      const detailWindow = new google.maps.InfoWindow({
+      detailWindow = new google.maps.InfoWindow({
         content: property.content,
       });
 
