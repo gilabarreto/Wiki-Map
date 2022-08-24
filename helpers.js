@@ -12,7 +12,7 @@ function getUserById(db, id) {
 
 }
 
-function getMapPoints(db, id) {
+function getMapPoints(db, id, res) {
   return db.query('SELECT * FROM points WHERE map_id = $1', [id])
     .then(data => {
       const points = data.rows;
