@@ -7,6 +7,18 @@
   <% if(userId){ %>
 
     <h1>Your maps! 🥔</h1>
+    <ul>
+      <% for(let map of data) { %>
+        <tr>
+          <td><%= map.title %></td>
+          <td>
+            <form method="GET" action="/maps/<%= map.id %>/edit">
+              <button type="submit">EDIT</button>
+            </form>
+          </td>
+        </tr>
+      <% } %>
+    </ul>
 
     <% } else{ %>
 

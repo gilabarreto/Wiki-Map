@@ -1,5 +1,5 @@
 // Client facing scripts here
-let detailWindow
+let detailWindow;
 function initMap() {
   //Map option
   let options = {
@@ -55,28 +55,27 @@ function initMap() {
 
     $("html").on("submit", "#add-point", function (e) {
       e.preventDefault();
-      // const formValue = $(event.target).serialize();
-      // console.log("form:", formValue)
 
-      $.post(`/maps/${id}/points`, {
-        latitude: event.latLng.lat(),
-        longitude: event.latLng.lng(),
-        title: $(e.target).find("input[name='title']").val(),
-        description: $(e.target).find("input[name='description']").val(),
-      });
-      detailWindow.close()
+      if (
+        ($(e.target).find("input[name='title']").val() === "") |
+        ($(e.target).find("input[name='description']").val() === "")
+      ) {
+        alert("Please enter valid place and description");
+      } else {
+        $.post(`/maps/${id}/points`, {
+          latitude: event.latLng.lat(),
+          longitude: event.latLng.lng(),
+          title: $(e.target).find("input[name='title']").val(),
+          description: $(e.target).find("input[name='description']").val(),
+        });
+      }
+      detailWindow.close();
       loadPoints();
     });
 
     $("html").on("click", "#add-point .cancel-btn", function (event) {
-      detailWindow.close()
+      detailWindow.close();
     });
-
-    // if (form complete) {
-    //   post information to backend
-    // } else {
-    //   don't save information
-    // }
   });
 
   //Add Marker

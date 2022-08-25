@@ -9,7 +9,6 @@ function getUserById(db, id) {
         .status(500)
         .json({ error: err.message });
     });
-
 }
 
 function getMapPoints(db, id, res) {
@@ -23,7 +22,19 @@ function getMapPoints(db, id, res) {
         .status(500)
         .json({ error: err.message });
     });
+}
 
+function getMap(db, id, res) {
+  return db.query('SELECT * FROM maps WHERE user_id = $1', [id])
+    .then(data => {
+      const maps = data.rows;
+      return maps
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
 }
 
 function getUserByEmail(db, email) {
@@ -42,5 +53,6 @@ function getUserByEmail(db, email) {
 module.exports = {
   getUserById,
   getUserByEmail,
-  getMapPoints
+  getMapPoints,
+  getMap
 };

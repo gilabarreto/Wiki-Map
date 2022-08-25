@@ -7,7 +7,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { getUserById, getMapPoints } = require("../helpers");
+const { getUserById, getMapPoints, getMap } = require("../helpers");
 
 module.exports = (db) => {
   ///////////////////
@@ -26,25 +26,22 @@ module.exports = (db) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
 
-    /* getUserById(db, userId)
+    getUserById(db, userId)
+    .then(user => {
+      if (user) {
+        getMap(db, userId)
+        .then((data) => {
+          console.log(data)
+          res.render("maps", { userId, userName, data });
+        }).catch((err) => {
+          res.status(500).send("Error: err.message");
+        });
+      }
+    })
 
-      .then(data => {
-        console.log(data)
-        res.render('index', { userId, userName });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .send("Error: err.message");
-      }); */
-
-    hasUser(
-      userId,
-      () => {
+    /*     hasUser(userId,() => {
         res.render("index", { userId, userName });
-      },
-      res
-    );
+      }); */
   });
 
   router.get("/favourites", (req, res) => {
@@ -92,7 +89,7 @@ module.exports = (db) => {
       .catch((err) => {
         res.status(500).send("Error: err.message");
       });
-  })
+  });
 
   router.get("/:id", (req, res) => {
     const userId = req.session.user_id;
@@ -133,30 +130,31 @@ module.exports = (db) => {
           RETURNING id`,
       [user_id, title, description]
     ).then((result) => {
-      console.log(result.rows[0].id)
+      console.log(result.rows[0].id);
       res.redirect(`/maps/${result.rows[0].id}/edit`);
     });
   });
 
   router.post("/:mapId/points", (req, res) => {
-
     const map_id = req.params.mapId;
     const description = req.body.description;
     const title = req.body.title;
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
-    console.log("Map id",map_id)
-    db.query(`INSERT INTO points (
+    console.log("Map id", map_id);
+    db.query(
+      `INSERT INTO points (
       map_id, description, title, latitude, longitude)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *;`,
-      [map_id, description, title, latitude, longitude])
+      [map_id, description, title, latitude, longitude]
+    )
       .then((data) => {
         res.status(200).send();
       })
       .catch((err) => {
         res.status(500).send("Error: err.message");
-        console.log(err)
+        console.log(err);
       });
   });
 
