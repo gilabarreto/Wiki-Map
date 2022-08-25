@@ -19,11 +19,9 @@ module.exports = (db) => {
     const userName = req.session.name;
 
     getUserById(db, userId).then((user) => {
-      console.log("user", user);
       if (user) {
         getAllMap(db)
           .then((data) => {
-            console.log("data index", data);
             res.render("index", { userId, userName, data });
           })
           .catch((err) => {
@@ -32,7 +30,6 @@ module.exports = (db) => {
       } else {
         getAllMap(db)
           .then((data) => {
-            console.log("data index", data);
             res.render("index", { userId, userName, data });
           })
           .catch((err) => {
@@ -42,27 +39,24 @@ module.exports = (db) => {
     });
   });
 
-  router.post("/", (req, res) => {
-
+  router.post("/:mapId", (req, res) => {
     const map_id = req.params.mapId;
-    const user_id = req.session.user_id;
+    const userId = req.session.user_id;
+    const userName = req.session.name;
 
-    console.log("map id", map_id);
-    console.log("user id", user_id);
-    console.log("getMap", getMap(db, user_id));
-
-    getMap(db, user_id).then((map) => {
+    getMap(db, userId).then((map) => {
       if (map) {
         db.query(
           `INSERT INTO favourites (
-      map_id, user_id)
-      VALUES ($1, $2)
-      RETURNING *;`,
-          [map_id, user_id]
+          map_id, user_id)
+          VALUES ($1, $2)
+          RETURNING *;`,
+          [map_id, userId]
         )
-          .then((data) => {
-            console.log(data);
-            res.status(200).send();
+          .then((dbdata) => {
+            getAllMap(db).then((data) => {
+              res.render("index", { userId, userName, data });
+            });
           })
           .catch((err) => {
             res.status(500).send("Error: err.message");

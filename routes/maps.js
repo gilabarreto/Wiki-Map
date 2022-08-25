@@ -7,7 +7,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { getUserById, getMapPoints, getMap } = require("../helpers");
+const { getUserById, getMapPoints, getMap, getAllFavourites } = require("../helpers");
 
 module.exports = (db) => {
   ///////////////////
@@ -43,21 +43,6 @@ module.exports = (db) => {
       }); */
   });
 
-  router.get("/favourites", (req, res) => {
-    const userId = req.session.user_id;
-    const userName = req.session.name;
-
-    getUserById(db, userId)
-      .then((data) => {
-        console.log(data);
-        console.log("favorites", userName);
-        res.render("favourites", { userId, userName });
-      })
-      .catch((err) => {
-        res.status(500).send("Error: err.message");
-      });
-  });
-
   router.get("/create", (req, res) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
@@ -69,6 +54,23 @@ module.exports = (db) => {
       .catch((err) => {
         res.status(500).send("Error: err.message");
       });
+  });
+
+  router.get("/:id/favourites", (req, res) => {
+    const userId = req.session.user_id;
+    const userName = req.session.name;
+
+    getUserById(db, userId).then((user) => {
+      if (user) {
+        getAllFavourites(db)
+          .then((data) => {
+            res.render("favourites", { userId, userName, data });
+          })
+          .catch((err) => {
+            res.status(500).send("Error: err.message");
+          });
+      }
+    });
   });
 
   router.get("/:id/points", (req, res) => {
@@ -163,11 +165,11 @@ module.exports = (db) => {
     const userName = req.session.name;
     getUserById(db, userId).then((user) => {
       if (user) {
-        db.query(`DELETE FROM maps WHERE id = $1`, [map_id])
+        db.query(`DELETE FROM maps WHERE id = $1`, [map_id]);
         getMap(db, userId)
           .then((data) => {
-            console.log("data2",data)
-            res.render("maps", { userId,userName, map_id, data });
+            console.log("data2", data);
+            res.render("maps", { userId, userName, map_id, data });
           })
           .catch((err) => {
             res.status(500).send("Error: err.message");

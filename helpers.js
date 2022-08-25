@@ -50,6 +50,19 @@ function getAllMap(db) {
     });
 }
 
+function getAllFavourites(db) {
+  return db.query('SELECT * FROM favourites')
+    .then(data => {
+      const favourites = data.rows;
+      return favourites
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+}
+
 function getUserByEmail(db, email) {
   return db.query('SELECT * FROM users WHERE email = $1', [email])
     .then(data => {
@@ -68,5 +81,6 @@ module.exports = {
   getUserByEmail,
   getMapPoints,
   getMap,
-  getAllMap
+  getAllMap,
+  getAllFavourites
 };

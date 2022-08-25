@@ -7,6 +7,18 @@
   <% if(userId){ %>
 
     <h1>Here are your favourite maps! 🥔</h1>
+    <ul>
+      <% for(let favourites of data) { %>
+        <tr>
+          <td><%= favourites.id %></td>
+          <td>
+            <form action="/maps/<%= favourites.id %>/favourites" method="POST">
+              <button type="submit">REMOVE</button>
+            </form>
+        </td>
+        </tr>
+      <% } %>
+    </ul>
 
     <% } else{ %>
 

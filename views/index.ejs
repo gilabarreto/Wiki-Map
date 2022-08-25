@@ -13,10 +13,10 @@
           <tr>
             <td><%= map.title %></td>
             <td>
-              <form method="POST">
+              <form action="/<%= map.id %>" method="POST">
                 <button type="submit">FAVOURITE</button>
               </form>
-            </td>
+          </td>
           </tr>
         <% } %>
       </ul>
@@ -32,7 +32,6 @@
         <% } %>
       </ul>
       <% } %>
-
 </body>
 
 </html>
