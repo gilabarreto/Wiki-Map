@@ -1,6 +1,6 @@
 // Client facing scripts here
 function initMap() {
-  let detailWindow;
+  let detailWindow = new google.maps.InfoWindow();
   //Add Marker
   function addMarker(property) {
     const marker = new google.maps.Marker({
@@ -10,11 +10,9 @@ function initMap() {
     });
     if (property.content) {
       console.log("content",property.content)
-      detailWindow = new google.maps.InfoWindow({
-      //   content: property.content,
-      });
       console.log("detailwindow", detailWindow);
       marker.addListener("mouseover", () => {
+        detailWindow.setContent(property.content)
         detailWindow.open(map, marker);
       });
     }
@@ -24,42 +22,6 @@ function initMap() {
     center: { lat: 43.6532, lng: -79.3832 },
     zoom: 8,
   };
-
-  // const loadPoints = function () {
-  //   const id = $("#map-id").val();
-  //   // console.log({id})
-  //   $.get(`/maps/${id}/points`)
-  //     .then((res) => {
-  //       console.log(res);
-
-  //       const markers = res.map((obj) => {
-  //         return {
-  //           location: {
-  //             lat: parseFloat(obj.latitude),
-  //             lng: parseFloat(obj.longitude),
-  //           },
-  //           content: `
-  //           <h2>${obj.title}</h2>
-  //           <h2>${obj.description}</h2>`,
-  //         };
-  //       });
-  //       console.log("markers", markers);
-  //       markers.forEach((marker) => addMarker(marker));
-
-  //       console.log(res);
-  //       const test = res.map((obj) => {
-  //         return {
-  //           title: obj.title,
-  //           description: obj.description,
-  //         };
-  //       });
-  //       return test;
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // };
-  // loadPoints();
 
   const loadPoints = function () {
     const id = $("#map-id").val();
