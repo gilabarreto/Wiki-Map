@@ -11,7 +11,7 @@ function getUserById(db, id) {
     });
 }
 
-function getMapPoints(db, id, res) {
+function getMapPoints(db, id) {
   return db.query('SELECT * FROM points WHERE map_id = $1', [id])
     .then(data => {
       const points = data.rows;
@@ -24,8 +24,21 @@ function getMapPoints(db, id, res) {
     });
 }
 
-function getMap(db, id, res) {
+function getMap(db, id) {
   return db.query('SELECT * FROM maps WHERE user_id = $1', [id])
+    .then(data => {
+      const maps = data.rows;
+      return maps
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+}
+
+function getAllMap(db) {
+  return db.query('SELECT * FROM maps')
     .then(data => {
       const maps = data.rows;
       return maps
@@ -54,5 +67,6 @@ module.exports = {
   getUserById,
   getUserByEmail,
   getMapPoints,
-  getMap
+  getMap,
+  getAllMap
 };

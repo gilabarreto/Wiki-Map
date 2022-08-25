@@ -1,18 +1,18 @@
 // Client facing scripts here
 function initMap() {
   let detailWindow = new google.maps.InfoWindow();
+
   //Add Marker
   function addMarker(property) {
     const marker = new google.maps.Marker({
       position: property.location,
       map: map,
-      content: property.content
+      content: property.content,
     });
+
     if (property.content) {
-      console.log("content",property.content)
-      console.log("detailwindow", detailWindow);
       marker.addListener("mouseover", () => {
-        detailWindow.setContent(property.content)
+        detailWindow.setContent(property.content);
         detailWindow.open(map, marker);
       });
     }
@@ -25,10 +25,8 @@ function initMap() {
 
   const loadPoints = function () {
     const id = $("#map-id").val();
-    // console.log({id})
     $.get(`/maps/${id}/points`)
       .then((res) => {
-        console.log(res)
         for (let i = 0; i < res.length; i++) {
           addMarker({
             location: {
@@ -56,9 +54,25 @@ function initMap() {
     //add Marker
     const id = $("#map-id").val();
 
-    console.log(event);
+    let markers = [
+      {
+        location: event.latLng,
+        content: `<form id="add-point" action="/maps/${id}/points" method="POST">
+    <label for="title">Title</label>
+    <input type="text" name="title" placeholder="Enter place">
+    <label for="description">Description</label>
+    <input type="text" name="description" placeholder="Description">
+    <button type="submit">Save</button>
+    <button type="button" class="cancel-btn">Cancel</button>
+    </form>`,
+      },
+    ];
 
-    addMarker({
+    for (let i = 0; i < markers.length; i++) {
+      addMarker(markers[i]);
+    }
+
+/*     addMarker({
       location: event.latLng,
       content: `<form id="add-point" action="/maps/${id}/points" method="POST">
       <label for="title">Title</label>
@@ -68,8 +82,9 @@ function initMap() {
       <button type="submit">Save</button>
       <button type="button" class="cancel-btn">Cancel</button>
       </form>`,
-    });
+    }); */
 
+    console.log("before pop", markers);
     $("html").on("submit", "#add-point", function (e) {
       e.preventDefault();
 
@@ -92,6 +107,10 @@ function initMap() {
 
     $("html").on("click", "#add-point .cancel-btn", function (event) {
       detailWindow.close();
+      markers=[]
+      console.log("after pop", markers);
     });
   });
 }
+
+

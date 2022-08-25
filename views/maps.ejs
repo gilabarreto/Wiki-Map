@@ -15,6 +15,9 @@
             <form method="GET" action="/maps/<%= map.id %>/edit">
               <button type="submit">EDIT</button>
             </form>
+            <form method="POST" action="/maps/<%= map.id %>/delete">
+              <button type="submit">DELETE</button>
+            </form>
           </td>
         </tr>
       <% } %>

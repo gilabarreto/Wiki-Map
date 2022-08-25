@@ -7,11 +7,30 @@
 
   <% if(userId){ %>
 
-    <h1>Welcome <%= userName %>! 🥔</h1>
+      <h1>Your maps! 🥔</h1>
+      <ul>
+        <% for(let map of data) { %>
+          <tr>
+            <td><%= map.title %></td>
+            <td>
+              <form method="POST">
+                <button type="submit">FAVOURITE</button>
+              </form>
+            </td>
+          </tr>
+        <% } %>
+      </ul>
 
     <% } else{ %>
 
-      <h1>You are on the main page, please register or login! 🥔</h1>
+      <h1>Your maps! 🥔</h1>
+      <ul>
+        <% for(let map of data) { %>
+          <tr>
+            <td><%= map.title %></td>
+          </tr>
+        <% } %>
+      </ul>
       <% } %>
 
 </body>

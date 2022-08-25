@@ -26,18 +26,17 @@ module.exports = (db) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
 
-    getUserById(db, userId)
-    .then(user => {
+    getUserById(db, userId).then((user) => {
       if (user) {
         getMap(db, userId)
-        .then((data) => {
-          console.log(data)
-          res.render("maps", { userId, userName, data });
-        }).catch((err) => {
-          res.status(500).send("Error: err.message");
-        });
+          .then((data) => {
+            res.render("maps", { userId, userName, data });
+          })
+          .catch((err) => {
+            res.status(500).send("Error: err.message");
+          });
       }
-    })
+    });
 
     /*     hasUser(userId,() => {
         res.render("index", { userId, userName });
@@ -158,15 +157,23 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/:id/edit", (req, res) => {
-    db.query(`SELECT * FROM users;`)
-      .then((data) => {
-        res.render("edit");
-      })
-      .catch((err) => {
-        res.status(500).send("Error: err.message");
-      });
+  router.post("/:mapId/delete", (req, res) => {
+    const map_id = req.params.mapId;
+    const userId = req.session.user_id;
+    const userName = req.session.name;
+    getUserById(db, userId).then((user) => {
+      if (user) {
+        db.query(`DELETE FROM maps WHERE id = $1`, [map_id])
+        getMap(db, userId)
+          .then((data) => {
+            console.log("data2",data)
+            res.render("maps", { userId,userName, map_id, data });
+          })
+          .catch((err) => {
+            res.status(500).send("Error: err.message");
+          });
+      }
+    });
   });
-
   return router;
 };
