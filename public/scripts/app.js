@@ -1,17 +1,72 @@
 // Client facing scripts here
-let detailWindow;
 function initMap() {
+  let detailWindow;
+  //Add Marker
+  function addMarker(property) {
+    const marker = new google.maps.Marker({
+      position: property.location,
+      map: map,
+      content: property.content
+    });
+    if (property.content) {
+      console.log("content",property.content)
+      detailWindow = new google.maps.InfoWindow({
+      //   content: property.content,
+      });
+      console.log("detailwindow", detailWindow);
+      marker.addListener("mouseover", () => {
+        detailWindow.open(map, marker);
+      });
+    }
+  }
   //Map option
   let options = {
     center: { lat: 43.6532, lng: -79.3832 },
     zoom: 8,
   };
 
+  // const loadPoints = function () {
+  //   const id = $("#map-id").val();
+  //   // console.log({id})
+  //   $.get(`/maps/${id}/points`)
+  //     .then((res) => {
+  //       console.log(res);
+
+  //       const markers = res.map((obj) => {
+  //         return {
+  //           location: {
+  //             lat: parseFloat(obj.latitude),
+  //             lng: parseFloat(obj.longitude),
+  //           },
+  //           content: `
+  //           <h2>${obj.title}</h2>
+  //           <h2>${obj.description}</h2>`,
+  //         };
+  //       });
+  //       console.log("markers", markers);
+  //       markers.forEach((marker) => addMarker(marker));
+
+  //       console.log(res);
+  //       const test = res.map((obj) => {
+  //         return {
+  //           title: obj.title,
+  //           description: obj.description,
+  //         };
+  //       });
+  //       return test;
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // };
+  // loadPoints();
+
   const loadPoints = function () {
     const id = $("#map-id").val();
     // console.log({id})
     $.get(`/maps/${id}/points`)
       .then((res) => {
+        console.log(res)
         for (let i = 0; i < res.length; i++) {
           addMarker({
             location: {
@@ -77,21 +132,4 @@ function initMap() {
       detailWindow.close();
     });
   });
-
-  //Add Marker
-  function addMarker(property) {
-    const marker = new google.maps.Marker({
-      position: property.location,
-      map: map,
-    });
-    if (property.content) {
-      detailWindow = new google.maps.InfoWindow({
-        content: property.content,
-      });
-
-      marker.addListener("mouseover", () => {
-        detailWindow.open(map, marker);
-      });
-    }
-  }
 }
