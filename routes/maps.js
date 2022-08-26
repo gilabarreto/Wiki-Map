@@ -81,6 +81,20 @@ module.exports = (db) => {
     });
   });
 
+  //GET Route for MY MAP
+  router.get("/:mapId/map", (req, res) => {
+    const userId = req.session.user_id;
+    const userName = req.session.name;
+
+    getUserById(db, userId)
+      .then((data) => {
+        res.render("my-maps", { userId, userName, id: req.params.mapId });
+      })
+      .catch((err) => {
+        res.status(500).send("Error: err.message");
+      });
+  });
+
   // GET Route for POINTS
   router.get("/:id/points", (req, res) => {
     getMapPoints(db, req.params.id, res).then((points) => {
@@ -149,10 +163,60 @@ module.exports = (db) => {
     });
   });
 
+// POST Route to ADD FAVOURITE to users' FAVOURITES'
+router.post("/:mapId", (req, res) => {
+  console.log("hi")
+  const map_id = req.params.mapId;
+  const userId = req.session.user_id;
+  const userName = req.session.name;
 
+  getMap(db, userId).then((map) => {
+    if (map) {
+      db.query(
+        `INSERT INTO favourites (
+        map_id, user_id)
+        VALUES ($1, $2)
+        RETURNING *;`,
+        [map_id, userId]
+      )
+      getAllMapsEx(db, userId)
+        .then((data) => {
+            res.render("index", { userId, userName, data });
+        })
+        .catch((err) => {
+          res.status(500).send("Error: err.message");
+          console.log(err);
+        });
+    }
+  });
+});
 
   // POST Route to ADD POINTS to a MAP
   router.post("/:mapId/points", (req, res) => {
+    const map_id = req.params.mapId;
+    const description = req.body.description;
+    const title = req.body.title;
+    const latitude = req.body.latitude;
+    const longitude = req.body.longitude;
+    console.log("Map id", map_id);
+    db.query(
+      `INSERT INTO points (
+      map_id, description, title, latitude, longitude)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;`,
+      [map_id, description, title, latitude, longitude]
+    )
+      .then((data) => {
+        res.status(200).send();
+      })
+      .catch((err) => {
+        res.status(500).send("Error: err.message");
+        console.log(err);
+      });
+  });
+
+  // POST Route to DELETE POINTS to a MAP
+  router.post("/:mapId/points/delete", (req, res) => {
     const map_id = req.params.mapId;
     const description = req.body.description;
     const title = req.body.title;
@@ -218,8 +282,6 @@ module.exports = (db) => {
       }
     });
   });
-
-
 
   return router;
 };

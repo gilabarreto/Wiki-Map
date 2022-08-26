@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/_header') %>
+
+  <body>
+    <% if(userId){ %>
+
+    <h1>🥔</h1>
+    <input type="hidden" id="map-id" value="<%= id %>" />
+    <div id="map"></div>
+
+    <% } else{ %>
+
+    <h1>You need to register to Create maps! 🥔</h1>
+    <% } %>
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAij0-DZe6QnWhUQvU-0U_XtlPZJ-DVVvg&callback=initMap&v=weekly"
+      defer
+    ></script>
+  </body>
+</html>

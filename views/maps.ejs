@@ -10,7 +10,7 @@
     <ul>
       <% for(let map of data) { %>
         <tr>
-          <td><%= map.title %></td>
+          <td> <a href="/maps/<%= map.id %>/map"><%= map.title %></a></td>
           <td>
             <form method="GET" action="/maps/<%= map.id %>/edit">
               <button type="submit">EDIT</button>

@@ -11,9 +11,9 @@
       <ul>
         <% for(let map of data) { %>
           <tr>
-            <td><%= map.title %></td>
+            <td> <%= map.title %> </td>
             <td>
-              <form id="fav-btn" action="/<%= map.id %>" method="POST">
+              <form id="fav-btn" action="/maps/<%= map.id %>" method="POST">
                 <button type="submit">FAVOURITE</button>
               </form>
           </td>

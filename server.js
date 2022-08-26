@@ -64,6 +64,7 @@ app.use("/maps", mapsRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.post("/logout", (req, res) => {
+  console.log("hi")
   req.session = null;
   res.redirect(`/`);
 });
