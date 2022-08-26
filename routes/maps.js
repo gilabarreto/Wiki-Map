@@ -6,12 +6,14 @@
  */
 
 const express = require("express");
+const { database } = require("pg/lib/defaults");
 const router = express.Router();
 const {
   getUserById,
   getMapPoints,
   getMap,
   getAllFavourites,
+  getMapByMapId
 } = require("../helpers");
 
 module.exports = (db) => {
@@ -85,14 +87,26 @@ module.exports = (db) => {
   router.get("/:mapId/map", (req, res) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
+    const mapId = req.params.mapId
+    console.log("mapID", mapId)
 
-    getUserById(db, userId)
-      .then((data) => {
-        res.render("my-maps", { userId, userName, id: req.params.mapId });
-      })
-      .catch((err) => {
-        res.status(500).send("Error: err.message");
-      });
+/*     getUserById(db, userId).then((user) => {
+      if (user) { */
+        getMapByMapId(db, mapId)
+          .then((data) => {
+            console.log("map data",data)
+            res.render("my-maps", {
+              userId,
+              userName,
+              id: mapId,
+              data,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+/*           });
+      } */
+    });
   });
 
   // GET Route for POINTS
@@ -163,33 +177,33 @@ module.exports = (db) => {
     });
   });
 
-// POST Route to ADD FAVOURITE to users' FAVOURITES'
-router.post("/:mapId", (req, res) => {
-  console.log("hi")
-  const map_id = req.params.mapId;
-  const userId = req.session.user_id;
-  const userName = req.session.name;
+  // POST Route to ADD FAVOURITE to users' FAVOURITES'
+  router.post("/:mapId", (req, res) => {
+    console.log("hi");
+    const map_id = req.params.mapId;
+    const userId = req.session.user_id;
+    const userName = req.session.name;
 
-  getMap(db, userId).then((map) => {
-    if (map) {
-      db.query(
-        `INSERT INTO favourites (
+    getMap(db, userId).then((map) => {
+      if (map) {
+        db.query(
+          `INSERT INTO favourites (
         map_id, user_id)
         VALUES ($1, $2)
         RETURNING *;`,
-        [map_id, userId]
-      )
-      getAllMapsEx(db, userId)
-        .then((data) => {
+          [map_id, userId]
+        );
+        getAllMapsEx(db, userId)
+          .then((data) => {
             res.render("index", { userId, userName, data });
-        })
-        .catch((err) => {
-          res.status(500).send("Error: err.message");
-          console.log(err);
-        });
-    }
+          })
+          .catch((err) => {
+            res.status(500).send("Error: err.message");
+            console.log(err);
+          });
+      }
+    });
   });
-});
 
   // POST Route to ADD POINTS to a MAP
   router.post("/:mapId/points", (req, res) => {
@@ -241,7 +255,7 @@ router.post("/:mapId", (req, res) => {
 
   // POST Route to DELETE a FAVOURITE
   router.post("/favourites/:favId/delete", (req, res) => {
-    console.log("This is the delete route")
+    console.log("This is the delete route");
     const fav_id = 2;
     const userId = req.session.user_id;
     const userName = req.session.name;
@@ -264,7 +278,7 @@ router.post("/:mapId", (req, res) => {
 
   // POST Route to DELETE a MAP
   router.post("/:mapId/delete", (req, res) => {
-    console.log("This is delete also")
+    console.log("This is delete also");
     const map_id = req.params.mapId;
     const userId = req.session.user_id;
     const userName = req.session.name;

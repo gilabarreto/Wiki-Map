@@ -175,10 +175,9 @@ function initMap() {
     center: { lat: 43.6532, lng: -79.3832 },
     zoom: 8,
   };
-
+  console.log("map div",document.getElementById("map"))
   const loadPoints = function () {
     const id = $("#map-id").val();
-    console.log("I'm id", id);
     $.get(`/maps/${id}/points`)
       .then((res) => {
         for (let i = 0; i < res.length; i++) {
@@ -201,7 +200,6 @@ function initMap() {
       });
   };
   loadPoints();
-
   //New map
   map = new google.maps.Map(document.getElementById("map"), options);
 
@@ -219,8 +217,8 @@ function initMap() {
     <label for="description">Description</label>
     <input type="text" name="description" placeholder="Description">
     <button type="submit">Save</button>
-    </form>
-    <button type="button" class="cancel-btn">Cancel</button>`,
+    <button type="button" class="cancel-btn">Cancel</button>
+    </form>`,
       },
     ];
 

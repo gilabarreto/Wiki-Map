@@ -11,7 +11,7 @@
       <ul>
         <% for(let map of data) { %>
           <tr>
-            <td> <%= map.title %> </td>
+            <td> <a href="/maps/<%= map.id %>/map"><%= map.title %></a> </td>
             <td>
               <form id="fav-btn" action="/maps/<%= map.id %>" method="POST">
                 <button type="submit">FAVOURITE</button>
@@ -27,7 +27,7 @@
       <ul>
         <% for(let map of data) { %>
           <tr>
-            <td><%= map.title %></td>
+            <td><a href="/maps/<%= map.id %>/map"><%= map.title %></a></td>
           </tr>
         <% } %>
       </ul>

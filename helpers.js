@@ -37,6 +37,17 @@ function getMap(db, id) {
     });
 }
 
+function getMapByMapId(db, id) {
+  return db.query('SELECT * FROM maps WHERE id = $1', [id])
+    .then(data => {
+      const map = data.rows[0];
+      return map
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 function getAllMap(db) {
   return db.query('SELECT * FROM maps')
     .then(data => {
@@ -94,5 +105,6 @@ module.exports = {
   getMap,
   getAllMap,
   getAllFavourites,
-  getAllMapsEx
+  getAllMapsEx,
+  getMapByMapId
 };
