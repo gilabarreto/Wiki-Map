@@ -1,4 +1,5 @@
 <!-- Header for Wiki-Map -->
+
 <head>
   <title>Home Page</title>
 
@@ -12,22 +13,27 @@
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
   <script type="text/javascript" src="/scripts/app.js"></script>
+
+  <link href="http://fonts.cdnfonts.com/css/clearviewhwy" rel="stylesheet">
+
 </head>
 <header>
+
   <nav class="navbar-top">
-    <a href="/">Wiki-Map</a>
+    <span class="nav-link">
+      <a href="/" class="nav-links">Wiki-Map</a>
+    </span>
 
     <% if(!userId){ %>
 
-      <a href="/login">Login</a>
-      <a href="/register">Register</a>
-
+      <span class="nav-links"><a href="/login">Login</a></span>
+      <span class="nav-links"><a href="/register">Register</a></span>
 
       <% } else{ %>
 
-        <a href="/maps">My Maps</a>
-        <a href="/maps/favourites">Favourites</a>
-        <a href="/maps/create">Create Maps</a>
+        <span class="nav-links"><a href="/maps">My Maps</a></span>
+        <span class="nav-links"><a href="/maps/favourites">Favourites</a></span>
+        <span class="nav-links"><a href="/maps/create">Create Maps</a></span>
 
         <form action="/logout" method="POST">
           <label for="logout">Logged In As: <%= userName %> </label>
@@ -37,3 +43,4 @@
         <% } %>
   </nav>
 </header>
+<div class="layout">

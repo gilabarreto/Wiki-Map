@@ -2,3 +2,30 @@
   position: fixed;
   top: 0;
 }
+.navbar-top {
+
+  display: flex;
+  height: 120px;
+  width: 100vw;
+  background-color: salmon;
+  color: #FFF;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 10;
+  border-bottom: 3px solid #FFF;
+
+  position: fixed;
+  top: 0;
+}
+
+.nav-links {
+  display: flex;
+  background-color: #E900FF;
+  border: 3px solid #545149;
+  color: #FFF;
+  padding: 10px 25px;
+  font-size: 16px;
+  margin: 4px 2px;
+}
