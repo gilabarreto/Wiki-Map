@@ -15,6 +15,7 @@ module.exports = (db) => {
   // GET Requests //
   /////////////////
 
+  // GET Route for LOGIN
   router.get("/", (req, res) => {
     const templateVars = { userId: null };
     res.render("login", templateVars);
@@ -24,6 +25,7 @@ module.exports = (db) => {
   // POST Requests //
   ///////////////////
 
+  // POST Route to LOGIN an existing user
   router.post('/', (req, res) => {
 
     const userEmail = req.body.email;

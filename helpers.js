@@ -11,7 +11,7 @@ function getUserById(db, id) {
     });
 }
 
-function getMapPoints(db, id) {
+function getMapPoints(db, id, res) {
   return db.query('SELECT * FROM points WHERE map_id = $1', [id])
     .then(data => {
       const points = data.rows;
@@ -50,8 +50,19 @@ function getAllMap(db) {
     });
 }
 
-function getAllFavourites(db) {
-  return db.query('SELECT * FROM favourites')
+function getAllMapsEx(db, id) {
+  return db.query('SELECT * FROM maps WHERE user_id != $1', [id])
+    .then(data => {
+      const maps = data.rows;
+      return maps
+    })
+    .catch(err => {
+     console.log(err)
+    });
+}
+
+function getAllFavourites(db, id) {
+  return db.query('SELECT * FROM favourites JOIN maps ON map_id = maps.id WHERE favourites.user_id = $1', [id])
     .then(data => {
       const favourites = data.rows;
       return favourites
@@ -82,5 +93,6 @@ module.exports = {
   getMapPoints,
   getMap,
   getAllMap,
-  getAllFavourites
+  getAllFavourites,
+  getAllMapsEx
 };

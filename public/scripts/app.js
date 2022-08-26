@@ -25,6 +25,7 @@ function initMap() {
 
   const loadPoints = function () {
     const id = $("#map-id").val();
+    console.log("I'm id",id)
     $.get(`/maps/${id}/points`)
       .then((res) => {
         for (let i = 0; i < res.length; i++) {
@@ -113,5 +114,10 @@ function initMap() {
   });
 }
 
+$("html").on("submit", "#fav-btn", function(event) {
+  event.preventDefault()
+})
 
-
+$("html").on("submit", "#removeFav-btn", function(event) {
+  event.preventDefault()
+})

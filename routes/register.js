@@ -16,6 +16,7 @@ module.exports = (db) => {
   // GET Requests //
   /////////////////
 
+  // GET Route for REGISTER
   router.get("/", (req, res) => {
     const templateVars = { userId: null };
     res.render("register", templateVars);
@@ -25,6 +26,7 @@ module.exports = (db) => {
   // POST Requests //
   ///////////////////
 
+  // POST Route to REGISTER a new user
   router.post('/', (req, res) => {
 
     const userName = req.body.name
