@@ -94,7 +94,6 @@ module.exports = (db) => {
       if (user) { */
         getMapByMapId(db, mapId)
           .then((data) => {
-            console.log("map data",data)
             res.render("my-maps", {
               userId,
               userName,
@@ -123,7 +122,6 @@ module.exports = (db) => {
 
     getUserById(db, userId)
       .then((data) => {
-        console.log("mapId", req.params.mapId);
         res.render("edit-maps", { userId, userName, id: req.params.mapId });
       })
       .catch((err) => {
@@ -212,7 +210,6 @@ module.exports = (db) => {
     const title = req.body.title;
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
-    console.log("Map id", map_id);
     db.query(
       `INSERT INTO points (
       map_id, description, title, latitude, longitude)
@@ -236,7 +233,6 @@ module.exports = (db) => {
     const title = req.body.title;
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
-    console.log("Map id", map_id);
     db.query(
       `INSERT INTO points (
       map_id, description, title, latitude, longitude)
@@ -255,22 +251,20 @@ module.exports = (db) => {
 
   // POST Route to DELETE a FAVOURITE
   router.post("/favourites/:favId/delete", (req, res) => {
-    console.log("This is the delete route");
-    const fav_id = 2;
+    const fav_id = req.params.favId;
     const userId = req.session.user_id;
     const userName = req.session.name;
 
-    console.log("favourite id", fav_id);
     getUserById(db, userId).then((user) => {
       if (user) {
         db.query(`DELETE FROM favourites WHERE id = $1`, [fav_id]);
         getAllFavourites(db, userId)
           .then((data) => {
-            console.log("data2", data);
-            res.render("favourites", { userId, userName, map_id, data });
+            console.log(data)
+            res.render("favourites", { userId, userName, data });
           })
           .catch((err) => {
-            res.status(500).send("Error: err.message");
+            console.log(err);
           });
       }
     });
@@ -287,7 +281,6 @@ module.exports = (db) => {
         db.query(`DELETE FROM maps WHERE id = $1`, [map_id]);
         getMap(db, userId)
           .then((data) => {
-            console.log("data2", data);
             res.render("maps", { userId, userName, map_id, data });
           })
           .catch((err) => {

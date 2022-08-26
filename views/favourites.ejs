@@ -12,7 +12,7 @@
         <tr>
           <td><%= favourites.title %></td>
           <td>
-            <form id="removeFav-btn" method="POST" action="<%= favourites.id %>/delete">
+            <form id="removeFav-btn" method="POST" action="/maps/favourites/<%= favourites.id %>/delete">
               <button type="submit">REMOVE</button>
             </form>
         </td>

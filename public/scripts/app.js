@@ -128,6 +128,8 @@ function initMap() {
       position: property.location,
       map: map,
       content: property.content,
+      animation: google.maps.Animation.DROP,
+      // icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/blue-pushpin.png'
     });
 
     if (property.content) {
@@ -175,7 +177,6 @@ function initMap() {
     center: { lat: 43.6532, lng: -79.3832 },
     zoom: 8,
   };
-  console.log("map div",document.getElementById("map"))
   const loadPoints = function () {
     const id = $("#map-id").val();
     $.get(`/maps/${id}/points`)
@@ -187,7 +188,7 @@ function initMap() {
               lng: parseFloat(res[i].longitude),
             },
             content: `
-            <h2>${res[i].title}</h2>
+            <h1>${res[i].title}</h1>
             <h2>${res[i].description}</h2>
             <form id="delete-point" >
             <button type="submit">Delete</button></form>
