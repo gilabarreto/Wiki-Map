@@ -62,8 +62,9 @@ module.exports = (db) => {
           RETURNING *;`,
           [map_id, userId]
         )
-          .then((dbdata) => {
-              res.status(200).end();
+        getAllMapsEx(db, userId)
+          .then((data) => {
+              res.render("index", { userId, userName, data });
           })
           .catch((err) => {
             res.status(500).send("Error: err.message");

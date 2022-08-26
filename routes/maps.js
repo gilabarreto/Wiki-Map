@@ -7,10 +7,14 @@
 
 const express = require("express");
 const router = express.Router();
-const { getUserById, getMapPoints, getMap, getAllFavourites } = require("../helpers");
+const {
+  getUserById,
+  getMapPoints,
+  getMap,
+  getAllFavourites,
+} = require("../helpers");
 
 module.exports = (db) => {
-
   ///////////////////
   // GET Requests //
   /////////////////
@@ -91,7 +95,7 @@ module.exports = (db) => {
 
     getUserById(db, userId)
       .then((data) => {
-        console.log("mapId",req.params.mapId)
+        console.log("mapId", req.params.mapId);
         res.render("edit-maps", { userId, userName, id: req.params.mapId });
       })
       .catch((err) => {
@@ -117,8 +121,7 @@ module.exports = (db) => {
   // POST Requests //
   ///////////////////
 
-
-  // POST Route to CREATE a map
+  // POST Route to CREATE a MAP
   router.post("/create", (req, res) => {
     const user_id = req.session.user_id;
     const title = req.body.title;
@@ -146,7 +149,9 @@ module.exports = (db) => {
     });
   });
 
-  // POST Route to ADD POINTS to a map
+
+
+  // POST Route to ADD POINTS to a MAP
   router.post("/:mapId/points", (req, res) => {
     const map_id = req.params.mapId;
     const description = req.body.description;
@@ -170,8 +175,32 @@ module.exports = (db) => {
       });
   });
 
-  // POST Route to DELETE a map
+  // POST Route to DELETE a FAVOURITE
+  router.post("/favourites/:favId/delete", (req, res) => {
+    console.log("This is the delete route")
+    const fav_id = 2;
+    const userId = req.session.user_id;
+    const userName = req.session.name;
+
+    console.log("favourite id", fav_id);
+    getUserById(db, userId).then((user) => {
+      if (user) {
+        db.query(`DELETE FROM favourites WHERE id = $1`, [fav_id]);
+        getAllFavourites(db, userId)
+          .then((data) => {
+            console.log("data2", data);
+            res.render("favourites", { userId, userName, map_id, data });
+          })
+          .catch((err) => {
+            res.status(500).send("Error: err.message");
+          });
+      }
+    });
+  });
+
+  // POST Route to DELETE a MAP
   router.post("/:mapId/delete", (req, res) => {
+    console.log("This is delete also")
     const map_id = req.params.mapId;
     const userId = req.session.user_id;
     const userName = req.session.name;
@@ -189,5 +218,8 @@ module.exports = (db) => {
       }
     });
   });
+
+
+
   return router;
 };

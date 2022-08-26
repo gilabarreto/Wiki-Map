@@ -42,7 +42,7 @@ function initMap() {
         }
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err);
       });
   };
   loadPoints();
@@ -114,10 +114,10 @@ function initMap() {
   });
 }
 
-$("html").on("submit", "#fav-btn", function(event) {
-  event.preventDefault()
-})
+// $("html").on("submit", "#fav-btn", function(event) {
+//   event.preventDefault()
+// })
 
-$("html").on("submit", "#removeFav-btn", function(event) {
-  event.preventDefault()
-})
+// $("html").on("submit", "#removeFav-btn", function(event) {
+//   event.preventDefault()
+// })
