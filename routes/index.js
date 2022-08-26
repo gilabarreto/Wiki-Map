@@ -7,7 +7,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { getUserById, getAllMap, getMap, getAllMapsEx } = require("../helpers");
+const { getUserById, getAllMap, getMap, getAllMapsEx, getAllFavourites } = require("../helpers");
 
 module.exports = (db) => {
   ///////////////////
@@ -22,8 +22,19 @@ module.exports = (db) => {
     getUserById(db, userId).then((user) => {
       if (user) {
         getAllMapsEx(db, userId)
-          .then((data) => {
-            res.render("index", { userId, userName, data });
+          .then((allMaps) => {
+            getAllFavourites(db, userId)
+             .then((favData) => {
+              const favDataIds = favData.map(obj => obj.map_id)
+              console.log("favDataIds",favDataIds)
+              const data = allMaps.filter(obj => {
+                console.log("objID",obj.id)
+                return !favDataIds.includes(obj.id)
+              })
+
+              console.log("data",data)
+              res.render("index", { userId, userName, data });
+             })
           })
           .catch((err) => {
             res.status(500);

@@ -73,8 +73,9 @@ function getAllMapsEx(db, id) {
 }
 
 function getAllFavourites(db, id) {
-  return db.query('SELECT favourites.id As id, title FROM favourites JOIN maps ON map_id = maps.id WHERE favourites.user_id = $1', [id])
+  return db.query('SELECT favourites.id As id, map_id, title FROM favourites JOIN maps ON map_id = maps.id WHERE favourites.user_id = $1', [id])
     .then(data => {
+      console.log(data.rows)
       const favourites = data.rows;
       return favourites
     })

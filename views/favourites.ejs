@@ -10,7 +10,7 @@
     <ul>
       <% for(let favourites of data) { %>
         <tr>
-          <td><%= favourites.title %></td>
+          <td><a href="/maps/<%= favourites.map_id %>/map"><%= favourites.title %></a></td>
           <td>
             <form id="removeFav-btn" method="POST" action="/maps/favourites/<%= favourites.id %>/delete">
               <button type="submit">REMOVE</button>

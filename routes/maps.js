@@ -74,6 +74,7 @@ module.exports = (db) => {
       if (user) {
         getAllFavourites(db, userId)
           .then((data) => {
+            console.log("fav data",data)
             res.render("favourites", { userId, userName, data });
           })
           .catch((err) => {
@@ -177,7 +178,6 @@ module.exports = (db) => {
 
   // POST Route to ADD FAVOURITE to users' FAVOURITES'
   router.post("/:mapId", (req, res) => {
-    console.log("hi");
     const map_id = req.params.mapId;
     const userId = req.session.user_id;
     const userName = req.session.name;
@@ -240,7 +240,7 @@ module.exports = (db) => {
       RETURNING *;`,
       [map_id, description, title, latitude, longitude]
     )
-      .then((data) => {
+      .then(() => {
         res.status(200).send();
       })
       .catch((err) => {
@@ -257,12 +257,13 @@ module.exports = (db) => {
 
     getUserById(db, userId).then((user) => {
       if (user) {
-        db.query(`DELETE FROM favourites WHERE id = $1`, [fav_id]);
-        getAllFavourites(db, userId)
+        db.query(`DELETE FROM favourites WHERE id = $1`, [fav_id])
+        .then(() =>{
+          getAllFavourites(db, userId)
           .then((data) => {
-            console.log(data)
             res.render("favourites", { userId, userName, data });
           })
+        })
           .catch((err) => {
             console.log(err);
           });
