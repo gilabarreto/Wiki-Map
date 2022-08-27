@@ -5,25 +5,33 @@
 
   <body>
     <% if(userId){ %>
+      <div class="content">
 
-      <h1>Here are your favourite maps! 🥔</h1>
-      <br>
-      <% for(let favourites of data) { %>
-        <td><a href="/maps/<%= favourites.map_id %>/map">
-            <%= favourites.title %>
-          </a></td>
-        <br>
-        <form id="removeFav-btn" method="POST" action="/maps/favourites/<%= favourites.id %>/delete">
-          <button class="standard-button" type="submit">REMOVE</button>
-        </form>
-        <br>
-        <% } %>
-
-          <% } else{ %>
-
-            <h1>🥔 You need to register to Favourite maps! 🥔</h1>
-
+        <h1>🥔 Here are your favourite maps! 🥔</h1>
+        <ul>
+          <% for(let favourites of data) { %>
+            <tr>
+              <td><a href="/maps/<%= favourites.map_id %>/map">
+                  <%= favourites.title %>
+                </a></td>
+              <td>
+                <br>
+                <form id="removeFav-btn" method="POST" action="/maps/favourites/<%= favourites.id %>/delete">
+                  <button class="standard-button" type="submit">REMOVE</button>
+                </form>
+              </td>
+            </tr>
             <% } %>
+        </ul>
+      </div>
+
+      <% } else{ %>
+        <div class="content">
+
+          <h1>🥔 You need to register to Favourite maps! 🥔</h1>
+
+        </div>
+        <% } %>
 
   </body>
 

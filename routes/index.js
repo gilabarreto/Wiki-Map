@@ -26,13 +26,9 @@ module.exports = (db) => {
             getAllFavourites(db, userId)
              .then((favData) => {
               const favDataIds = favData.map(obj => obj.map_id)
-              console.log("favDataIds",favDataIds)
               const data = allMaps.filter(obj => {
-                console.log("objID",obj.id)
                 return !favDataIds.includes(obj.id)
               })
-
-              console.log("data",data)
               res.render("index", { userId, userName, data });
              })
           })

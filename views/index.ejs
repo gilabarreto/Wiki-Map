@@ -3,37 +3,44 @@
 
 <%- include('partials/_header') %>
 
-<body>
+  <body>
 
-  <% if(userId){ %>
+    <% if(userId){ %>
+      <div class="content">
 
       <h1>🥔 Welcome to Spud Spotters! 🥔</h1>
       <ul>
         <% for(let map of data) { %>
           <tr>
-            <td> <a href="/maps/<%= map.id %>/map"><%= map.title %></a> </td>
+            <td> <a href="/maps/<%= map.id %>/map">
+                <%= map.title %>
+              </a> </td>
             <td>
               <form id="fav-btn" action="/maps/<%= map.id %>" method="POST">
                 <button class="standard-button" type="submit">FAVOURITE</button>
               </form>
-          </td>
+            </td>
           </tr>
           <br>
-        <% } %>
+          <% } %>
       </ul>
 
-    <% } else{ %>
+      </div>
+      <% } else{ %>
+        <div class="content">
 
-      <h1>🥔 Welcome to Spud Spotters! 🥔</h1>
-      <ul>
-        <% for(let map of data) { %>
-          <tr>
-            <td><a href="/maps/<%= map.id %>/map"><%= map.title %></a></td>
-          </tr>
-          <br>
+        <h1>🥔 Welcome to Spud Spotters! 🥔</h1>
+        <ul>
+          <% for(let map of data) { %>
+            <tr>
+              <td><a href="/maps/<%= map.id %>/map"> 🥔 <%= map.title %></a></td>
+            </tr>
+            <br>
+            <% } %>
+        </ul>
+
+        </div>
         <% } %>
-      </ul>
-      <% } %>
-</body>
+  </body>
 
 </html>

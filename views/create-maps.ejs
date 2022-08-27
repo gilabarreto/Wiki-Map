@@ -6,6 +6,7 @@
 <body>
 
   <% if(userId){ %>
+    <div class="content">
 
     <h1>🥔 ADD MAP 🥔</h1>
     <form class="add-map-form" action="/maps/create" method="POST">
@@ -20,10 +21,12 @@
       <br>
       <button class="standard-button" type="submit">SUBMIT</button>
     </form>
-
+    </div>
     <% } else{ %>
+      <div class="content">
 
       <h1>You need to register to Create maps! 🥔</h1>
+      </div>
       <% } %>
 
 </body>

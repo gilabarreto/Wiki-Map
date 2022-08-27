@@ -2,32 +2,70 @@
   position: fixed;
   top: 0;
 }
+
 .navbar-top {
 
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 120px;
   width: 100vw;
   background-color: #FDEEDC;
   background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-  color: #FFF;
+  border-bottom: 3px solid #E38B29;
+  color: #545149;
   padding-left: 1.5em;
   padding-right: 1.5em;
-  justify-content: space-evenly;
-  align-items: center;
   z-index: 10;
-  border-bottom: 3px solid #FFF;
-
   position: fixed;
   top: 0;
+}
+
+.nav-login {
+  display: flex;
 }
 
 .nav-links {
   display: flex;
   background-color: #F1A661;
   border: 3px solid #FFD8A9;
+  border-radius: 50px;
+  font-size: 16px;
   color: #545149;
   padding: 10px 25px;
-  font-size: 16px;
-  margin: 4px 2px;
-  border-radius: 50px;
+  margin: 0px 20px;
+}
+
+.logo {
+  font-family: pacifico, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 36px;
+  padding: 0px 20px 20px 0px
+}
+
+#potato {
+  position: absolute;
+  -webkit-animation: linear infinite;
+  -webkit-animation-name: run;
+  -webkit-animation-duration: 10s;
+}
+@-webkit-keyframes run {
+  0% {
+    left: 0;
+  }
+  48% {
+    -webkit-transform: rotateY(0deg);
+  }
+  50% {
+    left: calc(100% - 100px);
+    -webkit-transform: rotateY(180deg);
+  }
+  98% {
+    -webkit-transform: rotateY(180deg);
+  }
+  100% {
+    left: 0;
+     -webkit-transform: rotateY(0deg);
+  }
 }

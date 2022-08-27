@@ -13,33 +13,45 @@
   <script defer type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
   <script defer type="text/javascript" src="/scripts/app.js"></script>
-
+  <link rel="stylesheet" href="https://use.typekit.net/vxh3oxw.css">
   <link href="http://fonts.cdnfonts.com/css/clearviewhwy" rel="stylesheet">
 
 </head>
 <header>
 
   <nav class="navbar-top">
-    <span class="nav-link">
-      <a href="/" class="nav-links">Spud Spotters</a>
-    </span>
+
+    <div class="logo">
+      <span>
+        <a href="/">🥔 Spud Spotters!</a>
+      </span>
+    </div>
 
     <% if(!userId){ %>
 
-      <span class="nav-links"><a href="/login">Login</a></span>
-      <span class="nav-links"><a href="/register">Register</a></span>
+      <div id="potato">
+        <img src="https://i.stack.imgur.com/qgNyF.png?s=328&g=1" width=100px height=100px>
+      </div>
+
+      <div class="nav-login">
+        <span class="nav-links"><a href="/login">Login</a></span>
+        <span class=nav-links><a href="/register">Register</a><span>
+      </div>
 
       <% } else{ %>
 
-        <span class="nav-links"><a href="/maps">My Maps</a></span>
-        <span class="nav-links"><a href="/maps/favourites">Favourites</a></span>
-        <span class="nav-links"><a href="/maps/create">Create Maps</a></span>
+        <div class="nav-login">
+          <span class="nav-links"><a href="/maps">My Maps</a></span>
+          <span class="nav-links"><a href="/maps/favourites">Favourites</a></span>
+          <span class="nav-links"><a href="/maps/create">Create Maps</a></span>
+        </div>
 
-        <form action="/logout" method="POST">
-          <label for="logout">Logged In As: <%= userName %> </label>
-          <button class="nav-links" type="submit">LogOut</button>
-        </form>
-
+        <div class="nav-login">
+          <form action="/logout" method="POST">
+            <label for="logout">Logged In As: <%= userName %> </label>
+            <button class="nav-links" type="submit">LogOut</button>
+          </form>
+        </div>
         <% } %>
   </nav>
 </header>

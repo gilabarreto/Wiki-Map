@@ -58,7 +58,7 @@ function initMap() {
   //Map option
   let options = {
     center: { lat: 43.6532, lng: -79.3832 },
-    zoom: 10,
+    zoom: 12,
   };
 
   // Function to LOAD POINTS
@@ -75,8 +75,6 @@ function initMap() {
             content: `
             <h1>${res[i].title}</h1>
             <h2>${res[i].description}</h2>
-            <form id="delete-point" >
-            <button type="submit">Delete</button></form>
             `,
           });
         }

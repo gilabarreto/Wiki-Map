@@ -13,7 +13,8 @@ const {
   getMapPoints,
   getMap,
   getAllFavourites,
-  getMapByMapId
+  getMapByMapId,
+  getAllMapsEx
 } = require("../helpers");
 
 module.exports = (db) => {
@@ -60,17 +61,18 @@ module.exports = (db) => {
     const userName = req.session.name;
 
     getUserById(db, userId)
-    .then((user) => {
-      if (user) {
-        getAllFavourites(db, userId)
-          .then((data) => {
-            console.log("fav data", data)
-            res.render("favourites", { userId, userName, data });
-          })
-          .catch((err) => {
-            res.status(500).send("Error: err.message");
-          });      }
-    });
+      .then((user) => {
+        if (user) {
+          getAllFavourites(db, userId)
+            .then((data) => {
+              console.log("fav data", data)
+              res.render("favourites", { userId, userName, data });
+            })
+            .catch((err) => {
+              res.status(500).send("Error: err.message");
+            });
+        }
+      });
   });
 
   //GET Route for MY MAP
@@ -109,9 +111,9 @@ module.exports = (db) => {
     getUserById(db, userId)
       .then(() => {
         getMapByMapId(db, mapId)
-         .then((mapData) => {
-          res.render("edit-maps", { userId, userName, id: mapId, mapData});
-         })
+          .then((mapData) => {
+            res.render("edit-maps", { userId, userName, id: mapId, mapData });
+          })
       })
       .catch((err) => {
         res.status(500).send("Error: err.message");
@@ -161,25 +163,33 @@ module.exports = (db) => {
     const userName = req.session.name;
 
     getMap(db, userId)
-    .then((map) => {
-      if (map) {
-        db.query(
-          `INSERT INTO favourites (
+      .then((map) => {
+        if (map) {
+          db.query(
+            `INSERT INTO favourites (
         map_id, user_id)
         VALUES ($1, $2)
         RETURNING *;`,
-          [map_id, userId]
-        );
-        getAllMapsEx(db, userId)
-          .then((data) => {
-            res.render("index", { userId, userName, data });
-          })
-          .catch((err) => {
-            res.status(500).send("Error: err.message");
-            console.log(err);
+            [map_id, userId]
+          ).then(() => {
+            getAllMapsEx(db, userId)
+              .then((allMaps) => {
+                getAllFavourites(db, userId)
+                  .then((favData) => {
+                    const favDataIds = favData.map(obj => obj.map_id)
+                    const data = allMaps.filter(obj => {
+                      return !favDataIds.includes(obj.id)
+                    })
+                    res.render("index", { userId, userName, data });
+                  })
+              })
+              .catch((err) => {
+                res.status(500);
+                console.log(err);
+              })
           });
-      }
-    });
+        }
+      });
   });
 
   // POST Route to ADD POINTS to a MAP
@@ -240,20 +250,20 @@ module.exports = (db) => {
     const userName = req.session.name;
 
     getUserById(db, userId)
-    .then((user) => {
-      if (user) {
-        db.query(`DELETE FROM favourites WHERE id = $1`, [fav_id])
-          .then(() => {
-            getAllFavourites(db, userId)
-              .then((data) => {
-                res.render("favourites", { userId, userName, data });
-              })
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    });
+      .then((user) => {
+        if (user) {
+          db.query(`DELETE FROM favourites WHERE id = $1`, [fav_id])
+            .then(() => {
+              getAllFavourites(db, userId)
+                .then((data) => {
+                  res.render("favourites", { userId, userName, data });
+                })
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
   });
 
   // POST Route to DELETE a MAP
