@@ -4,6 +4,7 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: "ClearviewHwy", sans-serif;
+  font-size: 18px;
 
   a:link {
     text-decoration: none;
@@ -22,19 +23,27 @@ body {
   }
 
   background: rgb(163, 208, 219);
-  background: linear-gradient(
-    227deg,
+  background: linear-gradient(227deg,
     rgba(163, 208, 219, 1) 0%,
     rgba(163, 176, 219, 1) 20%,
     rgba(163, 173, 219, 1) 34%,
     rgba(163, 219, 208, 1) 59%,
     rgba(163, 208, 219, 1) 74%,
-    rgba(163, 208, 219, 1) 100%
-  );
+    rgba(163, 208, 219, 1) 100%);
 }
 
 a {
   color: yellow;
+}
+
+.standard-button {
+  display: flex;
+  background-color: #E900FF;
+  border: 3px solid #545149;
+  color: #FFF;
+  padding: 10px 25px;
+  font-size: 16px;
+  margin: 4px 2px;
 }
 
 .layout {
@@ -42,7 +51,7 @@ a {
   flex-direction: column;
   align-items: center;
   padding-top: 120px;
-  background-image: url("../map.png");
+  background: url("./../public/images/map.png");
   height: 100vh;
   width: 100vw;
 }
@@ -56,9 +65,9 @@ a {
 
 .register-form {
   display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
 
 .add-map-form {
@@ -70,7 +79,7 @@ a {
 
 .index-thumbnail {
   display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
