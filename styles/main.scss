@@ -42,6 +42,13 @@ input {
   text-align: center;
 }
 
+.input-default {
+  padding: 1px 2px;
+  border-radius: 0px;
+  width: 200px;
+  text-align: left;
+}
+
 .standard-button {
   display: flex;
   background-color: #E900FF;
