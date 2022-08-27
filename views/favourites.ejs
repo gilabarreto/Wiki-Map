@@ -3,28 +3,28 @@
 
 <%- include('partials/_header') %>
 
-<body>
-  <% if(userId){ %>
+  <body>
+    <% if(userId){ %>
 
-    <h1>Here are your favourite maps! 🥔</h1>
-    <ul>
+      <h1>Here are your favourite maps! 🥔</h1>
+      <br>
       <% for(let favourites of data) { %>
-        <tr>
-          <td><a href="/maps/<%= favourites.map_id %>/map"><%= favourites.title %></a></td>
-          <td>
-            <form id="removeFav-btn" method="POST" action="/maps/favourites/<%= favourites.id %>/delete">
-              <button type="submit">REMOVE</button>
-            </form>
-        </td>
-        </tr>
-      <% } %>
-    </ul>
+        <td><a href="/maps/<%= favourites.map_id %>/map">
+            <%= favourites.title %>
+          </a></td>
+        <br>
+        <form id="removeFav-btn" method="POST" action="/maps/favourites/<%= favourites.id %>/delete">
+          <button class="standard-button" type="submit">REMOVE</button>
+        </form>
+        <br>
+        <% } %>
 
-    <% } else{ %>
+          <% } else{ %>
 
-      <h1>You need to register to Favourite maps! 🥔</h1>
-      <% } %>
+            <h1>🥔 You need to register to Favourite maps! 🥔</h1>
 
-</body>
+            <% } %>
+
+  </body>
 
 </html>

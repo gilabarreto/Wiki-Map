@@ -7,8 +7,8 @@
   display: flex;
   height: 120px;
   width: 100vw;
-  background-color: salmon;
-  background-image: url("./../public/images/asfalt-light.png");
+  background-color: #FDEEDC;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
   color: #FFF;
   padding-left: 1.5em;
   padding-right: 1.5em;
@@ -23,10 +23,11 @@
 
 .nav-links {
   display: flex;
-  background-color: #E900FF;
-  border: 3px solid #545149;
-  color: #FFF;
+  background-color: #F1A661;
+  border: 3px solid #FFD8A9;
+  color: #545149;
   padding: 10px 25px;
   font-size: 16px;
   margin: 4px 2px;
+  border-radius: 50px;
 }

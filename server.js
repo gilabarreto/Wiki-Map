@@ -57,6 +57,10 @@ app.use("/register", registerRoutes(db));
 app.use("/login", loginRoutes(db));
 app.use("/maps", mapsRoutes(db));
 
+app.get('*', function(req, res){
+  res.render('404');
+});
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page

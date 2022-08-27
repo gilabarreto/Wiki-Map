@@ -6,17 +6,17 @@
 <body>
   <% if(userId){ %>
 
-    <h1>Your maps! 🥔</h1>
+    <h1>🥔 Your maps! 🥔</h1>
     <ul>
       <% for(let map of data) { %>
         <tr>
           <td> <a href="/maps/<%= map.id %>/map"><%= map.title %></a></td>
           <td>
             <form method="GET" action="/maps/<%= map.id %>/edit">
-              <button type="submit">EDIT</button>
+              <button class="standard-button" type="submit">EDIT</button>
             </form>
             <form method="POST" action="/maps/<%= map.id %>/delete">
-              <button type="submit">DELETE</button>
+              <button class="standard-button" type="submit">DELETE</button>
             </form>
           </td>
         </tr>

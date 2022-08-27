@@ -1,7 +1,7 @@
 <!-- Header for Wiki-Map -->
 
 <head>
-  <title>Home Page</title>
+  <title>Spud Spotters</title>
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -21,7 +21,7 @@
 
   <nav class="navbar-top">
     <span class="nav-link">
-      <a href="/" class="nav-links">Wiki-Map</a>
+      <a href="/" class="nav-links">Spud Spotters</a>
     </span>
 
     <% if(!userId){ %>
@@ -37,7 +37,7 @@
 
         <form action="/logout" method="POST">
           <label for="logout">Logged In As: <%= userName %> </label>
-          <button type="submit">LogOut</button>
+          <button class="nav-links" type="submit">LogOut</button>
         </form>
 
         <% } %>

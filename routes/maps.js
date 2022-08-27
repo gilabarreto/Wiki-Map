@@ -21,34 +21,23 @@ module.exports = (db) => {
   // GET Requests //
   /////////////////
 
-  function hasUser(userId, cb, res) {
-    getUserById(db, userId)
-      .then(cb)
-      .catch((err) => {
-        res.status(500).send("Error: err.message");
-      });
-  }
-
   // GET Route for MAPS
   router.get("/", (req, res) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
 
-    getUserById(db, userId).then((user) => {
-      if (user) {
-        getMap(db, userId)
-          .then((data) => {
-            res.render("maps", { userId, userName, data });
-          })
-          .catch((err) => {
-            res.status(500).send("Error: err.message");
-          });
-      }
-    });
-
-    /*     hasUser(userId,() => {
-        res.render("index", { userId, userName });
-      }); */
+    getUserById(db, userId)
+      .then((user) => {
+        if (user) {
+          getMap(db, userId)
+            .then((data) => {
+              res.render("maps", { userId, userName, data });
+            })
+            .catch((err) => {
+              res.status(500).send("Error: err.message");
+            });
+        }
+      });
   });
 
   // GET Route for CREATE
@@ -70,43 +59,38 @@ module.exports = (db) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
 
-    getUserById(db, userId).then((user) => {
+    getUserById(db, userId)
+    .then((user) => {
       if (user) {
         getAllFavourites(db, userId)
           .then((data) => {
-            console.log("fav data",data)
+            console.log("fav data", data)
             res.render("favourites", { userId, userName, data });
           })
           .catch((err) => {
             res.status(500).send("Error: err.message");
-          });
-      }
+          });      }
     });
   });
 
   //GET Route for MY MAP
   router.get("/:mapId/map", (req, res) => {
+
     const userId = req.session.user_id;
     const userName = req.session.name;
     const mapId = req.params.mapId
-    console.log("mapID", mapId)
 
-/*     getUserById(db, userId).then((user) => {
-      if (user) { */
-        getMapByMapId(db, mapId)
-          .then((data) => {
-            res.render("my-maps", {
-              userId,
-              userName,
-              id: mapId,
-              data,
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-/*           });
-      } */
-    });
+    /*     getUserById(db, userId).then((user) => {
+          if (user) { */
+    getMapByMapId(db, mapId)
+      .then((data) => {
+        res.render("my-maps", { userId, userName, id: mapId, data });
+      })
+      .catch((err) => {
+        console.log(err);
+        /*           });
+              } */
+      });
   });
 
   // GET Route for POINTS
@@ -120,10 +104,14 @@ module.exports = (db) => {
   router.get("/:mapId/edit", (req, res) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
+    const mapId = req.params.mapId
 
     getUserById(db, userId)
-      .then((data) => {
-        res.render("edit-maps", { userId, userName, id: req.params.mapId });
+      .then(() => {
+        getMapByMapId(db, mapId)
+         .then((mapData) => {
+          res.render("edit-maps", { userId, userName, id: mapId, mapData});
+         })
       })
       .catch((err) => {
         res.status(500).send("Error: err.message");
@@ -150,26 +138,16 @@ module.exports = (db) => {
 
   // POST Route to CREATE a MAP
   router.post("/create", (req, res) => {
-    const user_id = req.session.user_id;
+    const userId = req.session.user_id;
     const title = req.body.title;
     const description = req.body.description;
-
-    getUserById(db, user_id);
-
-    /*       .then(user => {
-        if (user) {
-          return res.status(400).send("E-mail already on our database.");
-        }
-        if (userName === "" | userEmail === "" || userPassword === "") {
-          return res.status(400).send("Name, E-mail and Password can not be blank. Please try again.");
-        } */
 
     db.query(
       `INSERT INTO maps (
           user_id, title, description)
           VALUES ($1, $2, $3)
           RETURNING id`,
-      [user_id, title, description]
+      [userId, title, description]
     ).then((result) => {
       console.log(result.rows[0].id);
       res.redirect(`/maps/${result.rows[0].id}/edit`);
@@ -182,7 +160,8 @@ module.exports = (db) => {
     const userId = req.session.user_id;
     const userName = req.session.name;
 
-    getMap(db, userId).then((map) => {
+    getMap(db, userId)
+    .then((map) => {
       if (map) {
         db.query(
           `INSERT INTO favourites (
@@ -205,11 +184,13 @@ module.exports = (db) => {
 
   // POST Route to ADD POINTS to a MAP
   router.post("/:mapId/points", (req, res) => {
+
     const map_id = req.params.mapId;
     const description = req.body.description;
     const title = req.body.title;
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
+
     db.query(
       `INSERT INTO points (
       map_id, description, title, latitude, longitude)
@@ -228,11 +209,13 @@ module.exports = (db) => {
 
   // POST Route to DELETE POINTS to a MAP
   router.post("/:mapId/points/delete", (req, res) => {
+
     const map_id = req.params.mapId;
     const description = req.body.description;
     const title = req.body.title;
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
+
     db.query(
       `INSERT INTO points (
       map_id, description, title, latitude, longitude)
@@ -251,19 +234,21 @@ module.exports = (db) => {
 
   // POST Route to DELETE a FAVOURITE
   router.post("/favourites/:favId/delete", (req, res) => {
+
     const fav_id = req.params.favId;
     const userId = req.session.user_id;
     const userName = req.session.name;
 
-    getUserById(db, userId).then((user) => {
+    getUserById(db, userId)
+    .then((user) => {
       if (user) {
         db.query(`DELETE FROM favourites WHERE id = $1`, [fav_id])
-        .then(() =>{
-          getAllFavourites(db, userId)
-          .then((data) => {
-            res.render("favourites", { userId, userName, data });
+          .then(() => {
+            getAllFavourites(db, userId)
+              .then((data) => {
+                res.render("favourites", { userId, userName, data });
+              })
           })
-        })
           .catch((err) => {
             console.log(err);
           });
@@ -273,10 +258,11 @@ module.exports = (db) => {
 
   // POST Route to DELETE a MAP
   router.post("/:mapId/delete", (req, res) => {
-    console.log("This is delete also");
+
     const map_id = req.params.mapId;
     const userId = req.session.user_id;
     const userName = req.session.name;
+
     getUserById(db, userId).then((user) => {
       if (user) {
         db.query(`DELETE FROM maps WHERE id = $1`, [map_id]);

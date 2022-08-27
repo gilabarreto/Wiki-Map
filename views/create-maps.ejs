@@ -7,13 +7,18 @@
 
   <% if(userId){ %>
 
-    <h1>ADD MAP 🥔</h1>
+    <h1>🥔 ADD MAP 🥔</h1>
     <form class="add-map-form" action="/maps/create" method="POST">
+      <br>
       <label for="title">MAP TITLE</label>
-      <input type="title" name="title" placeholder="Enter the maps' title">
+      <br>
+      <input type="title" name="title" placeholder="Maps' title">
+      <br>
       <label for="description">DESCRIPTION</label>
-      <input type="description" name="description" placeholder="Enter maps' description">
-      <button type="submit">SUBMIT</button>
+      <br>
+      <input type="description" name="description" placeholder="Maps' description">
+      <br>
+      <button class="standard-button" type="submit">SUBMIT</button>
     </form>
 
     <% } else{ %>

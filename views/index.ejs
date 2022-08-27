@@ -7,14 +7,14 @@
 
   <% if(userId){ %>
 
-      <h1>Welcome to Wiki-Map! 🥔</h1>
+      <h1>🥔 Welcome to Spud Spotters! 🥔</h1>
       <ul>
         <% for(let map of data) { %>
           <tr>
             <td> <a href="/maps/<%= map.id %>/map"><%= map.title %></a> </td>
             <td>
               <form id="fav-btn" action="/maps/<%= map.id %>" method="POST">
-                <button type="submit">FAVOURITE</button>
+                <button class="standard-button" type="submit">FAVOURITE</button>
               </form>
           </td>
           </tr>
@@ -24,7 +24,7 @@
 
     <% } else{ %>
 
-      <h1>Welcome to Wiki-Map! 🥔</h1>
+      <h1>🥔 Welcome to Spud Spotters! 🥔</h1>
       <ul>
         <% for(let map of data) { %>
           <tr>

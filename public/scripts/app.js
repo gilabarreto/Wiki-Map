@@ -129,12 +129,15 @@ function initMap() {
       map: map,
       content: property.content,
       animation: google.maps.Animation.DROP,
-      // icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/blue-pushpin.png'
+      icon: {
+        url: "https://images.emojiterra.com/google/android-pie/512px/1f954.png",
+        scaledSize: new google.maps.Size(38, 31)
+      }
     });
 
     if (property.content) {
       let detailWindow = new google.maps.InfoWindow();
-      marker.addListener("mouseover", () => {
+      marker.addListener("click", () => {
         detailWindow.setContent(property.content);
         detailWindow.open(map, marker);
       });
@@ -175,8 +178,10 @@ function initMap() {
   //Map option
   let options = {
     center: { lat: 43.6532, lng: -79.3832 },
-    zoom: 8,
+    zoom: 10,
   };
+
+  // Function to LOAD POINTS
   const loadPoints = function () {
     const id = $("#map-id").val();
     $.get(`/maps/${id}/points`)
