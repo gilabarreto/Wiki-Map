@@ -1,4 +1,4 @@
-LHL Node Skeleton
+README
 =========
 
 ## Project Setup
