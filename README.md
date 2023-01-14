@@ -1,5 +1,6 @@
-README
-=========
+# Spud Spotter
+
+Midterm project for Lighthouse Labs. It's a Google Maps API app based where I practice my frontend and back-end skills, and also Node, SQL, Javascript and jQuery
 
 ## Project Setup
 
