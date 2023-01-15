@@ -2,7 +2,7 @@
 <html lang="en">
   <%- include('partials/_header') %>
   <script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAij0-DZe6QnWhUQvU-0U_XtlPZJ-DVVvg&callback=initMap&v=weekly"
+  src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_MAPS_KEY %>&callback=initMap&v=weekly"
   defer
 ></script>
   <body>
