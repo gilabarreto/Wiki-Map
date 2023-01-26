@@ -1,6 +1,10 @@
 # Spud Spotter
 
-Midterm project for Lighthouse Labs. It's a Google Maps API app based where I practice my frontend and back-end skills, and also Node, SQL, Javascript and jQuery
+A midterm project for Lighthouse Labs, built using Node, SQL, Javascript, and jQuery, utilizing the Google Maps API to allow users to create, edit, and favorite their favorite potato restaurants.
+
+## Final Product
+
+https://user-images.githubusercontent.com/92469359/213012218-f2b66907-88ed-4e4d-8ad7-64e1bb71ba69.mp4
 
 ## Getting Started
 
